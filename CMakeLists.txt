@@ -36,6 +36,7 @@ set(
 
   brain/Machine.cpp
   brain/PatternFinder.cpp
+  brain/DataGenerator.cpp
 
 )
 
