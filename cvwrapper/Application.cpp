@@ -10,8 +10,8 @@ Application::Application() :
 
 Application::~Application() {}
 
-void Application::run() {
-  onStart();
+void Application::run(utils::Command const &command) {
+  onStart(command);
   while (_isOpen) {
     onEvent(cvWaitKey(_keyWait) & 255);
     onUpdate();

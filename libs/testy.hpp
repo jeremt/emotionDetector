@@ -150,7 +150,7 @@ inline int TestSuite::run() {
       // Display the test description
       displaySubtitle(unit.first);
 
-      for (auto &test : unit.second) {
+      for (auto const &test : unit.second) {
 
         // Run the test and display the fail or success message
 
@@ -160,12 +160,18 @@ inline int TestSuite::run() {
         try {
           error = test.second();
           if (!error.empty()) { // message isnt empty
+            error = "code `" + error + "`";
             ++fail;
             std::cout << "\e[0;31✗ ";
           } else { // succeed otherwise
             std::cout << "\e[0;32m✓ \e[1;30m";
           }
+        } catch (std::exception const &e) {
+          error = "unexpected exception `" + std::string(e.what()) + "`";
+          ++fail;
+          std::cout << "\e[0;31m✗ ";
         } catch (...) { // fail if an unexpected exception is thrown.
+          error = "unexpected unknown exception";
           ++fail;
           std::cout << "\e[0;31m✗ ";
         }
@@ -181,7 +187,7 @@ inline int TestSuite::run() {
         // display error message
 
         if (!error.empty())
-          std::cout << "        failed with `" << error << "`" << std::endl;
+          std::cout << "        failed with " << error << std::endl;
 
         ++total;
       }

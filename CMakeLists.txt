@@ -2,6 +2,14 @@ cmake_minimum_required(VERSION 2.8.8)
 
 project(emotionDetector)
 
+# Macros
+
+macro(unit_test NAME)
+  message(STATUS "Add unit test ${NAME}")
+  add_executable(test${NAME} tests/${NAME}.cpp $<TARGET_OBJECTS:OBJECTS>)
+  target_link_libraries(test${NAME} ${OpenCV_LIBS})
+endmacro()
+
 # Settings
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR})
@@ -24,8 +32,10 @@ set(
 
   utils/loadCsv.cpp
   utils/Log.cpp
+  utils/Command.cpp
 
   brain/Machine.cpp
+  brain/PatternFinder.cpp
 
 )
 
@@ -41,5 +51,5 @@ target_link_libraries(emotionDetector ${OpenCV_LIBS})
 
 # Some unit tests
 
-add_executable(testMachine tests/machine.cpp $<TARGET_OBJECTS:OBJECTS>)
-target_link_libraries(testMachine ${OpenCV_LIBS})
+unit_test(PatternFinder)
+

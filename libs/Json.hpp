@@ -340,7 +340,7 @@ public:
     if (_type == UNDEFINED)
       _type = ARRAY;
     if (_type != ARRAY)
-      throw std::range_error("Json: cannot dereference this type of value.");
+      throw std::range_error("cannot dereference this type of value");
     if (i >= _arr.size())
     {
       size_t n = _arr.size();
@@ -357,7 +357,7 @@ public:
     if (_type == UNDEFINED)
       _type = OBJECT;
     if (_type != OBJECT)
-      throw std::range_error("Json: cannot dereference this type of value.");
+      throw std::range_error("cannot dereference this type of value");
     if (_index.find(s) == _index.end())
       push(s, Json());
     return _props[_index[s]].second;
@@ -424,7 +424,7 @@ public:
     std::ifstream f(path.c_str());
 
     if (!f.is_open())
-      throw std::runtime_error("cannot open file \"" + path + "\".");
+      throw std::runtime_error("cannot open file `" + path + "`");
     load(f);
   }
 
@@ -580,7 +580,7 @@ private:
 
     tok = k+3 < token.size() ? token.substr(k, 4) : "";
     if (tok != "true")
-      throw std::runtime_error("Json: unknown token \"" + tok + "\".");
+      throw std::runtime_error("unknown token \"" + tok + "\"");
     _tokens.push_back(Token("true", kTokenBoolean));
     k += 4;
   }
@@ -591,7 +591,7 @@ private:
 
     tok = k+4 < token.size() ? token.substr(k, 5) : "";
     if (tok != "false")
-      throw std::runtime_error("Json: unknown token \"" + tok + "\".");
+      throw std::runtime_error("unknown token \"" + tok + "\"");
     _tokens.push_back(Token("false", kTokenBoolean));
     k += 5;
   }
@@ -602,7 +602,7 @@ private:
 
     tok = k+3 < token.size() ? token.substr(k, 4) : "";
     if (tok != "null")
-      throw std::runtime_error("Json: unknown token \"" + tok + "\".");
+      throw std::runtime_error("unknown token \"" + tok + "\"");
     _tokens.push_back(Token("null", kTokenNull));
     k += 4;
   }
@@ -613,7 +613,7 @@ private:
 
     tok = k+8 < token.size() ? token.substr(k, 9) : "";
     if (tok != "undefined")
-      throw std::runtime_error("Json: unknown token \"" + tok + "\".");
+      throw std::runtime_error("unknown token \"" + tok + "\"");
     _tokens.push_back(Token("undefined", kTokenUndefined));
     k += 9;
   }
@@ -703,7 +703,7 @@ private:
         case ':': _check_colon(k, token);         break;
         default:
           if (_check_digit(k, token) == false)
-            throw std::runtime_error("Json: unknown token \"" + token.substr(k) + "\".");
+            throw std::runtime_error("unknown token \"" + token.substr(k) + "\"");
         }
     }
       }
@@ -784,7 +784,7 @@ private:
         return current;
 
       default:
-        throw std::runtime_error("invalid json data.");
+        throw std::runtime_error("invalid json data");
     }
     return current;
   }

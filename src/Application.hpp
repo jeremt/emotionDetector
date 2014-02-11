@@ -13,7 +13,7 @@ public:
   Application();
   ~Application();
 
-  void onStart();
+  void onStart(utils::Command const &command);
   void onUpdate();
   void onEvent(int key);
 

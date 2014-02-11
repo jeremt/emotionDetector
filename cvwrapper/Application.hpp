@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "utils/Command.hpp"
+
 namespace cvwrapper {
 
 #define ESCAPE 27
@@ -16,7 +18,7 @@ public:
   virtual ~Application();
 
   // Run the opencv application.
-  void run();
+  void run(utils::Command const &command);
 
   // Close the application.
   void close();
@@ -24,7 +26,7 @@ public:
   // Set the keyWait time.
   void setKeyWait(float);
 
-  virtual void onStart() = 0;
+  virtual void onStart(utils::Command const &command) = 0;
   virtual void onEvent(int keycode) = 0;
   virtual void onUpdate() = 0;
 
