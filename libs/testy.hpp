@@ -161,13 +161,13 @@ inline int TestSuite::run() {
           error = test.second();
           if (!error.empty()) { // message isnt empty
             ++fail;
-            std::cout << "\e[0;31mâœ— ";
+            std::cout << "\e[0;31✗ ";
           } else { // succeed otherwise
-            std::cout << "\e[0;32mâœ“ \e[1;30m";
+            std::cout << "\e[0;32m✓ \e[1;30m";
           }
         } catch (...) { // fail if an unexpected exception is thrown.
           ++fail;
-          std::cout << "\e[0;31mâœ— ";
+          std::cout << "\e[0;31m✗ ";
         }
 
         // and duration of the function call
@@ -192,11 +192,11 @@ inline int TestSuite::run() {
     // Display the result of the tests
 
     if (fail) {
-      std::cout << "  \e[0;31mâœ— " << fail << " of "
+      std::cout << "  \e[0;31m✗ " << fail << " of "
                 << total << " tests failed "
                 << "(" << duration << "ms)";
     } else {
-      std::cout << "  \e[0;32mâœ“ " << total
+      std::cout << "  \e[0;32m✓ " << total
                 << " tests completed "
                 << "(" << duration << "ms)";
     }

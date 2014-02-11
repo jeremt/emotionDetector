@@ -36,17 +36,17 @@ private:
    * Used to know the type of the current token.
    */
   enum TokenType {
-    T_UNDEFINED,
-    T_STRING,
-    T_NUMBER,
-    T_LEFT_BRACE,
-    T_RIGHT_BRACE,
-    T_LEFT_BRACKET,
-    T_RIGHT_BRACKET,
-    T_COMMA,
-    T_COLON,
-    T_BOOLEAN,
-    T_NULL
+    kTokenUndefined,
+    kTokenString,
+    kTokenNumber,
+    kTokenLeftBrace,
+    kTokenRightBrace,
+    kTokenLeftBracket,
+    kTokenRightBracket,
+    kTokenComma,
+    kTokenColon,
+    kTokenBoolean,
+    kTokenNull
   };
 
   /**
@@ -56,13 +56,17 @@ private:
   struct Token {
     std::string value;
     TokenType type;
-    Token(std::string value="", TokenType type = T_UNDEFINED)
+    Token(std::string value="", TokenType type = kTokenUndefined)
     : value(value)
     , type(type)
     {}
   };
 
 public:
+
+  typedef std::vector<Json> Array;
+  typedef std::vector<std::pair<std::string, Json> > Object;
+
   /**
    * @enum Type
    * Represente the type of the current Json node.
@@ -271,6 +275,22 @@ public:
   operator double() const
   {
     return _convert<std::string, double>(_value);
+  }
+
+  /**
+   * Return an array value.
+   */
+  operator Array() const
+  {
+    return _arr;
+  }
+
+  /**
+   * Return an object value.
+   */
+  operator Object() const
+  {
+    return _props;
   }
 
   /**
@@ -544,13 +564,13 @@ private:
     size_t i = k + 1;
     while (i < token.size() && (token[i] != '"' || token[i - 1] == '\\'))
       ++i;
-    _tokens.push_back(Token(token.substr(k+1, i-k-1), T_STRING));
+    _tokens.push_back(Token(token.substr(k+1, i-k-1), kTokenString));
     k = i + 1;
   }
 
   void _check_comma(size_t &k, std::string const &)
   {
-    _tokens.push_back(Token(",", T_COMMA));
+    _tokens.push_back(Token(",", kTokenComma));
     ++k;
   }
 
@@ -561,7 +581,7 @@ private:
     tok = k+3 < token.size() ? token.substr(k, 4) : "";
     if (tok != "true")
       throw std::runtime_error("Json: unknown token \"" + tok + "\".");
-    _tokens.push_back(Token("true", T_BOOLEAN));
+    _tokens.push_back(Token("true", kTokenBoolean));
     k += 4;
   }
 
@@ -572,7 +592,7 @@ private:
     tok = k+4 < token.size() ? token.substr(k, 5) : "";
     if (tok != "false")
       throw std::runtime_error("Json: unknown token \"" + tok + "\".");
-    _tokens.push_back(Token("false", T_BOOLEAN));
+    _tokens.push_back(Token("false", kTokenBoolean));
     k += 5;
   }
 
@@ -583,7 +603,7 @@ private:
     tok = k+3 < token.size() ? token.substr(k, 4) : "";
     if (tok != "null")
       throw std::runtime_error("Json: unknown token \"" + tok + "\".");
-    _tokens.push_back(Token("null", T_NULL));
+    _tokens.push_back(Token("null", kTokenNull));
     k += 4;
   }
 
@@ -594,37 +614,37 @@ private:
     tok = k+8 < token.size() ? token.substr(k, 9) : "";
     if (tok != "undefined")
       throw std::runtime_error("Json: unknown token \"" + tok + "\".");
-    _tokens.push_back(Token("undefined", T_UNDEFINED));
+    _tokens.push_back(Token("undefined", kTokenUndefined));
     k += 9;
   }
 
   void _check_right_brace(size_t &k, std::string const &)
   {
-    _tokens.push_back(Token("}", T_RIGHT_BRACE));
+    _tokens.push_back(Token("}", kTokenRightBrace));
     k++;
   }
 
   void _check_left_brace(size_t &k, std::string const &)
   {
-    _tokens.push_back(Token("{", T_LEFT_BRACE));
+    _tokens.push_back(Token("{", kTokenLeftBrace));
     k++;
   }
 
   void _check_right_bracket(size_t &k, std::string const &)
   {
-    _tokens.push_back(Token("]", T_RIGHT_BRACKET));
+    _tokens.push_back(Token("]", kTokenRightBracket));
     k++;
   }
 
   void _check_left_bracket(size_t &k, std::string const &)
   {
-    _tokens.push_back(Token("[", T_LEFT_BRACKET));
+    _tokens.push_back(Token("[", kTokenLeftBracket));
     k++;
   }
 
   void _check_colon(size_t &k, std::string const &)
   {
-    _tokens.push_back(Token(":", T_COLON));
+    _tokens.push_back(Token(":", kTokenColon));
     k++;
   }
 
@@ -642,7 +662,7 @@ private:
                 token[i] == '+' ||
                 token[i] == '-'))
       ++i;
-      _tokens.push_back(Token(token.substr(k, i-k), T_NUMBER));
+      _tokens.push_back(Token(token.substr(k, i-k), kTokenNumber));
       k = i;
       return true;
     }
@@ -703,10 +723,10 @@ private:
 
     switch (v[i].type)
     {
-      case T_LEFT_BRACE:
+      case kTokenLeftBrace:
         current._type = OBJECT;
         k = i + 1;
-        while (v[k].type != T_RIGHT_BRACE)
+        while (v[k].type != kTokenRightBrace)
         {
           std::string key = v[k].value;
           k += 2;
@@ -714,50 +734,50 @@ private:
           Json vv = _parse(v, k, j);
           current.push(key, vv);
           k = j;
-          if (v[k].type == T_COMMA) k++;
+          if (v[k].type == kTokenComma) k++;
         }
         r = k + 1;
         return current;
 
-      case T_LEFT_BRACKET:
+      case kTokenLeftBracket:
         current._type = ARRAY;
         k = i + 1;
-        while (v[k].type != T_RIGHT_BRACKET)
+        while (v[k].type != kTokenRightBracket)
         {
           j = k;
           Json vv = _parse(v, k, j);
           current.push(vv);
           k = j;
-          if (v[k].type == T_COMMA) k++;
+          if (v[k].type == kTokenComma) k++;
         }
         r = k + 1;
         return current;
 
-      case T_NUMBER:
+      case kTokenNumber:
         current._type = NUMBER;
         current._value = v[i].value;
         r = i + 1;
         return current;
 
-      case T_STRING:
+      case kTokenString:
         current._type = STRING;
         current._value = v[i].value;
         r = i + 1;
         return current;
 
-      case T_BOOLEAN:
+      case kTokenBoolean:
         current._type = BOOLEAN;
         current._value = v[i].value;
         r = i + 1;
         return current;
 
-      case T_NULL:
+      case kTokenNull:
         current._type = EMPTY;
         current._value = "null";
         r = i + 1;
         return current;
 
-      case T_UNDEFINED:
+      case kTokenUndefined:
         current._type = UNDEFINED;
         current._value = "undefined";
         r = i + 1;
@@ -768,12 +788,13 @@ private:
     }
     return current;
   }
+
 private:
   std::string _value;
   Type _type;
-  std::vector<std::pair<std::string, Json> > _props;
+  Object _props;
   std::map<std::string, int> _index;
-  std::vector<Json> _arr;
+  Array _arr;
   std::vector<Token> _tokens;
 
 };

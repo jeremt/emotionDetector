@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.8)
 
 project(emotionDetector)
+
+# Settings
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR})
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++0x")

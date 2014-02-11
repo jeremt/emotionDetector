@@ -17,15 +17,9 @@ public:
   // Empty destructor.
   ~Machine();
 
-  // Train the machine from the given |csvPath|. The file is formated like the
-  // following example:
-  //
-  //   happy:path/to/mouth_1.png
-  //   happy:path/to/mouth_2.png
-  //   sad:path/to/mouth_3.png
-  //   sad:path/to/mouth_4.png
-  //
-  void train(std::string const &csvPath);
+  // Train the machine from a json which contains the path to all happy and
+  // sad training images (e.g data.json).
+  void train(std::string const &path);
 
   // Check if the given mouth is a smile or not.
   bool isSmile(IplImage *mouth) const;
@@ -33,6 +27,8 @@ public:
 private:
   cv::Mat _trainSet;
   cv::Mat _projectionMatrix;
+  std::size_t _imgSize;
+  std::size_t _nbImgs;
 
 };
 
