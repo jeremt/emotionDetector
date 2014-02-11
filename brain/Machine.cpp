@@ -1,6 +1,7 @@
 
 #include <highgui.h>
 #include "Json.hpp"
+#include "utils/Log.hpp"
 #include "brain/Machine.hpp"
 
 namespace brain {
@@ -44,8 +45,8 @@ void Machine::train() {
   // Compute sum and matrix from images data.
   for (auto const &pattern : _imgPatterns) {
     for (std::string const &path : pattern.second) {
-      std::cout << "[" << offset << "] [" << pattern.first << "] "
-                << path << std::endl;
+      LOG_INFO << "[" << offset << "] [" << pattern.first << "] "
+                << path << LOG_ENDL;
       cv::Mat m = cvLoadImageM(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
       m = m.t();
       m = m.reshape(1, _imgSize);
@@ -95,6 +96,7 @@ std::string Machine::detect(IplImage *mouth) const {
       minIndex = i;
     }
   }
+  LOG_DEBUG << "min(" << min << "), minIndex(" << minIndex << ")" << LOG_ENDL;
   return minIndex != 1 ? "happy" : "sad"; // to change
 }
 

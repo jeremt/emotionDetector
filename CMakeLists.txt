@@ -23,6 +23,7 @@ set(
   cvwrapper/Application.cpp
 
   utils/loadCsv.cpp
+  utils/Log.cpp
 
   brain/Machine.cpp
 
