@@ -6,7 +6,7 @@ namespace cvwrapper {
 Window::Window(std::string const &name) :
   _name(name) {
   cvNamedWindow(_name.c_str(), CV_WINDOW_AUTOSIZE);
-  cvInitFont(&_font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 0.5, 0, 1);
+  cvInitFont(&_font, CV_FONT_HERSHEY_SIMPLEX, 0.5, 0.5, 0, 1);
 }
 
 Window::Window(std::string const &name, std::size_t x, std::size_t y) :

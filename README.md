@@ -30,8 +30,9 @@ Provide some C++ utilities.
 TODO
 ----
 
-- Make the Machine.detect() generic and improve its behaviour
 - Update GUI
+- Add an automatic way to update dataset (json, and screenshot taken)
+- Try to detect more emotions (Ekman emotions: anger, disgust, fear, happiness, sadness and surprise)
 - Try to create a plugin
 - Try to use neuronal network library (FAAN?)
 

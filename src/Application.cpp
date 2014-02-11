@@ -38,6 +38,8 @@ void Application::onUpdate() {
       cvPoint(20, 450), CV_RGB(255, 255, 255));
 
   // Update windows display
+  std::string help("[ESC] Quit - [H] Happy screenshot - [S] Sad screeshot");
+  _mainWindow.drawText(img, help, cvPoint(20, 50), CV_RGB(255, 255, 255));
   _mouthWindow.display(mouth);
   _mainWindow.display(img);
 
