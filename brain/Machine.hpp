@@ -17,14 +17,20 @@ public:
   // Empty destructor.
   ~Machine();
 
-  // Train the machine from a json which contains the path to all happy and
-  // sad training images (e.g data.json).
-  void train(std::string const &path);
+  // Load the data from a json data file.
+  void loadFromJson(std::string const &path);
 
-  // Check if the given mouth is a smile or not.
-  bool isSmile(IplImage *mouth) const;
+  // Add a image for a specific pattern from its |name|.
+  void addImage(std::string const &name, std::string const &path);
+
+  // Train the machine using the registered data.
+  void train();
+
+  // Return the detected pattern from the given image.
+  std::string detect(IplImage *mouth) const;
 
 private:
+  std::map<std::string, std::vector<std::string>> _imgPaths;
   cv::Mat _trainSet;
   cv::Mat _projectionMatrix;
   std::size_t _imgSize;

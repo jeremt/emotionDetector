@@ -25,6 +25,7 @@ set(
   utils/loadCsv.cpp
 
   brain/Machine.cpp
+  brain/HappynessMachine.cpp
 
 )
 

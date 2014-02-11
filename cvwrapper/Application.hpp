@@ -3,6 +3,8 @@
 
 namespace cvwrapper {
 
+#define ESCAPE 27
+
 // Implement from this abstract class to create an opencv application.
 class Application {
 public:

@@ -5,7 +5,7 @@
 namespace cvwrapper {
 
 Application::Application() :
-  _isOpen(false),
+  _isOpen(true),
   _keyWait(50) {}
 
 Application::~Application() {}
@@ -13,7 +13,7 @@ Application::~Application() {}
 void Application::run() {
   onStart();
   while (_isOpen) {
-    onEvent(cvWaitKey(_keyWait));
+    onEvent(cvWaitKey(_keyWait) & 255);
     onUpdate();
   }
 }

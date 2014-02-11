@@ -1,32 +1,21 @@
 
 #include <highgui.h>
+#include <limits>
 #include "Json.hpp"
-#include "brain/Machine.hpp"
+#include "brain/HappynessMachine.hpp"
 
 namespace brain {
 
-Machine::Machine() :
+HappynessMachine::HappynessMachine() :
   _imgSize(0),
   _nbImgs(0) {}
 
-Machine::~Machine() {}
+HappynessMachine::~HappynessMachine() {}
 
-void Machine::loadFromJson(std::string const &path) {
-  Json file;
-
-  file.load(path);
-  Json::Object data = file;
-  for (auto p : data) {
-    Json::Array imgPaths = p.second;
-    for (std::string const &path : imgPaths)
-      _imgPaths[p.first].push_back(path);
-  }
-}
-
-void Machine::train() {
+void HappynessMachine::train(std::string const &path) {
   Json data;
 
-  data.load("data.json");
+  data.load(path);
 
   // Get data from json.
   Json::Array const &happyImages = data["happy"];
@@ -83,8 +72,28 @@ void Machine::train() {
 
 }
 
-std::string Machine::detect(IplImage *mouth) const {
-  return "";
+bool HappynessMachine::isSmile(IplImage *mouth) const {
+  if (_imgSize == 0 || _nbImgs == 0)
+    throw std::runtime_error("cannot detect without training data");
+  float min = std::numeric_limits<float>::max();
+  int minIndex = 0;
+
+  // Apply preprocessor to mouth
+  cv::Mat mat = mouth;
+  mat = mat.t();
+  mat = mat.reshape(1, _imgSize);
+  mat.convertTo(mat, CV_32FC1);
+  cv::Mat cross = _projectionMatrix * mat;
+
+  // Find the index of the minimal value in the trainSet matrix
+  for (std::size_t i = 0; i < _nbImgs; i++) {
+    float n = norm(cross - _trainSet.col(i));
+    if (min > n) {
+      min = n;
+      minIndex = i;
+    }
+  }
+  return minIndex != 1;
 }
 
 }
