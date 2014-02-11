@@ -1,13 +1,9 @@
 {
   "imgSize": { "width": 30, "height": 20 },
   "happy": [
-    "data/happy00.png",
-    "data/happy01.png",
-    "data/happy02.png"
+    "data/happy00.png"
   ],
   "sad": [
-    "data/sad00.png",
-    "data/sad01.png",
-    "data/sad02.png"
+    "data/sad00.png"
   ]
 }

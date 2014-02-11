@@ -20,6 +20,7 @@ set(
   cvwrapper/Detector.cpp
   cvwrapper/Window.cpp
   cvwrapper/Image.cpp
+  cvwrapper/Application.cpp
 
   utils/loadCsv.cpp
 
@@ -31,7 +32,9 @@ add_library(OBJECTS OBJECT ${SOURCES})
 
 # OpenCV application
 
-add_executable(emotionDetector src/main.cpp $<TARGET_OBJECTS:OBJECTS>)
+set(APP_SOURCES src/Application.cpp src/main.cpp)
+
+add_executable(emotionDetector ${APP_SOURCES} $<TARGET_OBJECTS:OBJECTS>)
 
 target_link_libraries(emotionDetector ${OpenCV_LIBS})
 
