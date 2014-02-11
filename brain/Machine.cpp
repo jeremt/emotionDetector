@@ -96,8 +96,16 @@ std::string Machine::detect(IplImage *mouth) const {
       minIndex = i;
     }
   }
-  LOG_DEBUG << "min(" << min << "), minIndex(" << minIndex << ")" << LOG_ENDL;
-  return minIndex != 1 ? "happy" : "sad"; // to change
+
+  // Get the pattern name from the index found
+  // TODO(jeremie) modulo le nombre d'image dans le data set
+  std::size_t i = 0;
+  for (auto const &pattern : _imgPatterns) {
+    if (i == minIndex)
+      return pattern.first;
+    ++i;
+  }
+  return "unknown";
 }
 
 }
