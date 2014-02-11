@@ -11,7 +11,8 @@ Application::Application() :
 Application::~Application() {}
 
 void Application::onStart() {
-  _machine.train("data.json");
+  _machine.loadFromJson("data.json");
+  _machine.train();
 }
 
 void Application::onUpdate() {
@@ -33,7 +34,8 @@ void Application::onUpdate() {
       cvwrapper::ajustImage(img, face, 0.7, 0.6));
 
   // Update windows display
-  _smileyWindow.display(_machine.isSmile(mouth) ? _imgHappy : _imgSad);
+  _smileyWindow.display(_machine.detect(mouth) == "happy" ?
+      _imgHappy : _imgSad);
   _mouthWindow.display(mouth);
   _mainWindow.display(img);
 

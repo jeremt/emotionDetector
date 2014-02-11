@@ -5,7 +5,7 @@
 #include "cvwrapper/Detector.hpp"
 #include "cvwrapper/Window.hpp"
 #include "cvwrapper/Image.hpp"
-#include "brain/HappynessMachine.hpp"
+#include "brain/Machine.hpp"
 #include "cvwrapper/Application.hpp"
 
 class Application : public cvwrapper::Application {
@@ -18,7 +18,7 @@ public:
   void onEvent(int key);
 
 private:
-  brain::HappynessMachine _machine;
+  brain::Machine _machine;
   cvwrapper::Detector _detector;
   cvwrapper::Capture _cam;
   cvwrapper::Window _mainWindow;

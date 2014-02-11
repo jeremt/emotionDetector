@@ -15,54 +15,45 @@ void Machine::loadFromJson(std::string const &path) {
   Json file;
 
   file.load(path);
-  Json::Object data = file;
+  Json::Object const &data = file;
   for (auto p : data) {
-    Json::Array imgPaths = p.second;
+    Json::Array const &imgPaths = p.second;
     for (std::string const &path : imgPaths)
-      _imgPaths[p.first].push_back(path);
+      addImage(p.first, path);
   }
 }
 
-void Machine::train() {
-  Json data;
+void Machine::addImage(std::string const &name, std::string const &path) {
+  _imgPatterns[name].push_back(path);
+}
 
-  data.load("data.json");
+void Machine::train() {
 
   // Get data from json.
-  Json::Array const &happyImages = data["happy"];
-  Json::Array const &sadImages = data["sad"];
-  std::string const &firstImage = happyImages[0];
-  CvSize sz = cvGetSize(cvLoadImage(firstImage.c_str()));
+  CvSize sz = cvGetSize(cvLoadImage(_imgPatterns.begin()->second[0].c_str()));
   _imgSize = sz.width * sz.height;
-  _nbImgs = happyImages.size() + sadImages.size();
+  _nbImgs = 0;
+  for (auto const &pattern : _imgPatterns)
+    _nbImgs += pattern.second.size();
 
   // Initialize cv materials.
   cv::Mat sum = cv::Mat::zeros(_imgSize, 1, CV_32FC1);
   cv::Mat matrix(_imgSize, _nbImgs, CV_32FC1);
   std::size_t offset = 0;
 
-  // Train from happy images.
-  for (std::string const &path : happyImages) {
-    std::cout << "Load [" << offset << "] " << path << std::endl;
-    cv::Mat m = cvLoadImageM(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
-    m = m.t();
-    m = m.reshape(1, _imgSize);
-    m.convertTo(m, CV_32FC1);
-    m.copyTo(matrix.col(offset));
-    sum = sum + m;
-    ++offset;
-  }
-
-  // Train from sad images.
-  for (std::string const &path : sadImages) {
-    std::cout << "Load [" << offset << "] " << path << std::endl;
-    cv::Mat m = cvLoadImageM(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
-    m = m.t();
-    m = m.reshape(1, _imgSize);
-    m.convertTo(m, CV_32FC1);
-    m.copyTo(matrix.col(offset));
-    sum = sum + m;
-    ++offset;
+  // Compute sum and matrix from images data.
+  for (auto const &pattern : _imgPatterns) {
+    for (std::string const &path : pattern.second) {
+      std::cout << "[" << offset << "] [" << pattern.first << "] "
+                << path << std::endl;
+      cv::Mat m = cvLoadImageM(path.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
+      m = m.t();
+      m = m.reshape(1, _imgSize);
+      m.convertTo(m, CV_32FC1);
+      m.copyTo(matrix.col(offset));
+      sum = sum + m;
+      ++offset;
+    }
   }
 
   // Compute eigen vectors from the images sum.
@@ -84,7 +75,27 @@ void Machine::train() {
 }
 
 std::string Machine::detect(IplImage *mouth) const {
-  return "";
+  if (_imgSize == 0 || _nbImgs == 0)
+    throw std::runtime_error("cannot detect without training data");
+  float min = std::numeric_limits<float>::max();
+  int minIndex = 0;
+
+  // Apply preprocessor to mouth
+  cv::Mat mat = mouth;
+  mat = mat.t();
+  mat = mat.reshape(1, _imgSize);
+  mat.convertTo(mat, CV_32FC1);
+  cv::Mat cross = _projectionMatrix * mat;
+
+  // Find the index of the minimal value in the trainSet matrix
+  for (std::size_t i = 0; i < _nbImgs; i++) {
+    float n = norm(cross - _trainSet.col(i));
+    if (min > n) {
+      min = n;
+      minIndex = i;
+    }
+  }
+  return minIndex != 1 ? "happy" : "sad"; // to change
 }
 
 }

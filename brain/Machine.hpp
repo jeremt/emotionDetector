@@ -6,8 +6,7 @@
 
 namespace brain {
 
-// Simple machine learning which will detect the mouth of people according
-// a mouth data set saved from the program.
+// Simple machine learning which will detect patterns from image data sets.
 class Machine {
 public:
 
@@ -30,7 +29,7 @@ public:
   std::string detect(IplImage *mouth) const;
 
 private:
-  std::map<std::string, std::vector<std::string>> _imgPaths;
+  std::map<std::string, std::vector<std::string>> _imgPatterns;
   cv::Mat _trainSet;
   cv::Mat _projectionMatrix;
   std::size_t _imgSize;
