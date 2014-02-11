@@ -22,14 +22,26 @@ public:
   // Display the given image on the window.
   void display(IplImage *image) const;
 
-  // Draw the given rectangle on the image.
+  // Draw the given |rect| on the image.
   void drawRect(IplImage *image, CvRect *rect, CvScalar const &color) const;
+
+  // Draw the given |text| on the image.
+  void drawText(IplImage *image,
+                std::string const &text,
+                CvPoint const &pt,
+                CvScalar const &color) const;
+
+  void drawImage(IplImage *image,
+                 IplImage *smallImage,
+                 std::size_t x,
+                 std::size_t y);
 
   // Move the window on the screen.
   void move(std::size_t x, std::size_t y) const;
 
 private:
   std::string _name;
+  CvFont _font;
 
 };
 

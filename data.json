@@ -1,8 +1,8 @@
 {
   "happy": [
-    "data/happy00.png"
+    "data/happy_0.png"
   ],
   "sad": [
-    "data/sad00.png"
+    "data/sad_0.png"
   ]
 }

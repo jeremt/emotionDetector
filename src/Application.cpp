@@ -4,10 +4,7 @@
 
 Application::Application() :
   _mainWindow("emotion detector"),
-  _mouthWindow("your mouth", 670, 0),
-  _smileyWindow("your emotion", 670, 200),
-  _imgHappy(cvLoadImage("data/happy.jpg")),
-  _imgSad(cvLoadImage("data/sad.jpg")) {}
+  _mouthWindow("input data", 0, 650) {}
 
 Application::~Application() {}
 
@@ -27,23 +24,26 @@ void Application::onUpdate() {
     // Get one frame
     IplImage *img = _cam.queryFrame();
 
-    // find the mouth
+    // Find the head
     CvRect *face = _detector.detectBestFace(img);
     if (face == NULL) {
-      LOG_WARN << "no face detected" << LOG_ENDL;
+      _mainWindow.drawText(img, "No face detected!",
+        cvPoint(20, 450), CV_RGB(255, 255, 255));
       _mainWindow.display(img);
       return;
     }
-    _mainWindow.drawRect(img, face, CV_RGB(200,50,50));
+    _mainWindow.drawRect(img, face, CV_RGB(255, 255, 255));
 
-    // Get the mouse and set it in black and white
+    // Find the mouse and detect the pattern
     IplImage *mouth = cvwrapper::equalizeImage(
         cvwrapper::ajustImage(img, face, 0.7, 0.6));
+    _mainWindow.drawImage(img, mouth, 0, 0);
+
+    // Detect the pattern
+    _mainWindow.drawText(img, "Detected pattern: " + _machine.detect(mouth),
+        cvPoint(20, 450), CV_RGB(255, 255, 255));
 
     // Update windows display
-    std::string const &result = _machine.detect(mouth);
-    LOG_DEBUG << "result = " << result << LOG_ENDL;
-    _smileyWindow.display(result == "happy" ? _imgHappy : _imgSad);
     _mouthWindow.display(mouth);
     _mainWindow.display(img);
 

@@ -1,0 +1,14 @@
+{
+  "happy": [
+    "data/happy_0.png",
+    "data/happy_1.png",
+    "data/happy_2.png",
+    "data/happy_3.png"
+  ],
+  "sad": [
+    "data/sad_0.png",
+    "data/sad_1.png",
+    "data/sad_2.png",
+    "data/sad_3.png"
+  ]
+}

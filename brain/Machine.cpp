@@ -79,7 +79,7 @@ std::string Machine::detect(IplImage *mouth) const {
   if (_imgSize == 0 || _nbImgs == 0)
     throw std::runtime_error("cannot detect without training data");
   float min = std::numeric_limits<float>::max();
-  int minIndex = 0;
+  std::size_t minIndex = 0;
 
   // Apply preprocessor to mouth
   cv::Mat mat = mouth;
@@ -96,6 +96,8 @@ std::string Machine::detect(IplImage *mouth) const {
       minIndex = i;
     }
   }
+
+  LOG_DEBUG << "detected index " << minIndex << LOG_ENDL;
 
   // Get the pattern name from the index found
   // TODO(jeremie) modulo le nombre d'image dans le data set

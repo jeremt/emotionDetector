@@ -23,8 +23,5 @@ private:
   cvwrapper::Capture _cam;
   cvwrapper::Window _mainWindow;
   cvwrapper::Window _mouthWindow;
-  cvwrapper::Window _smileyWindow;
-  IplImage *_imgHappy;
-  IplImage *_imgSad;
 };
 
