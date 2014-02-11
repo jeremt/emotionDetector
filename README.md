@@ -6,7 +6,11 @@ Simple machine learning program to detect people emotions.
 Usage
 -----
 
+The project provide a cmake compilation. On window, the cmake application will generate a solution for unit tests and for the training/test program. On linux you can simply use `run.sh` program:
 
+```
+./run.sh help
+```
 
 Description
 -----------

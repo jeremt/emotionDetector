@@ -5,7 +5,8 @@ if [ "$1" == "help" ]; then
   echo "  ./run.sh [command]"
   echo ""
   echo "Commands:"
-  echo "  test           run all tests"
+  echo "  default       without argument, it will lauch the program"
+  echo "  test          run all tests"
   echo "  testMachine   test the machine learning"
   echo ""
   exit
