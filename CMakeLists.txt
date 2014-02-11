@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 2.8)
+
+project(emotionDetector)
+
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR})
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++0x")
-project( FaceDetect )
-find_package( OpenCV REQUIRED )
+find_package(OpenCV REQUIRED)
 
 include_directories(.)
 
-add_executable(
+include_directories(libs)
 
-  FaceDetect
+set(
 
-  src/main.cpp
+  SOURCES
 
   cvwrapper/Capture.cpp
   cvwrapper/Detector.cpp
@@ -23,4 +25,15 @@ add_executable(
 
 )
 
-target_link_libraries( FaceDetect ${OpenCV_LIBS} )
+add_library(OBJECTS OBJECT ${SOURCES})
+
+# OpenCV application
+
+add_executable(emotionDetector src/main.cpp $<TARGET_OBJECTS:OBJECTS>)
+
+target_link_libraries(emotionDetector ${OpenCV_LIBS})
+
+# Some unit tests
+
+add_executable(testMachine tests/machine.cpp $<TARGET_OBJECTS:OBJECTS>)
+target_link_libraries(testMachine ${OpenCV_LIBS})
