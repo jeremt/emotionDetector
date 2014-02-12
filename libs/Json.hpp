@@ -255,6 +255,10 @@ public:
    */
   void push(std::string key, Json const &v)
   {
+    if (_type == UNDEFINED)
+      _type = OBJECT;
+    else if (_type != OBJECT)
+      throw std::runtime_error("the json node should be an array");
     _index[key] = _props.size();
     _props.push_back(make_pair(key, v));
   }
@@ -266,6 +270,10 @@ public:
    */
   void push(Json const &v)
   {
+    if (_type == UNDEFINED)
+      _type = ARRAY;
+    else if (_type != ARRAY)
+      throw std::runtime_error("the json node should be an array");
     _arr.push_back(v);
   }
 

@@ -25,7 +25,7 @@ set(
   SOURCES
 
   cvwrapper/Capture.cpp
-  cvwrapper/Detector.cpp
+  cvwrapper/FaceDetector.cpp
   cvwrapper/Window.cpp
   cvwrapper/Image.cpp
   cvwrapper/Application.cpp

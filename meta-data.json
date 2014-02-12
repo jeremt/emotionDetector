@@ -1,0 +1,7 @@
+{
+  "dataDir": "~/Projects/Epitech/emotionDetector/data",
+  "patterns": {
+    "happy": ["happy_0.png"],
+    "sad": ["sad_0.png"]
+  }
+}

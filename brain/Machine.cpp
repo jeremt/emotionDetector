@@ -97,8 +97,6 @@ std::string Machine::detect(IplImage *mouth) const {
     }
   }
 
-  LOG_DEBUG << "detected index " << minIndex << LOG_ENDL;
-
   // Get the pattern name from the index found
   // TODO(jeremie) modulo le nombre d'image dans le data set
   std::size_t i = 0;

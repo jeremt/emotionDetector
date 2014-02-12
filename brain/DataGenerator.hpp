@@ -2,7 +2,7 @@
 #pragma once
 
 #include <cv.h>
-#include <string>
+#include "Json.hpp"
 
 namespace brain {
 
@@ -10,17 +10,24 @@ namespace brain {
 class DataGenerator {
 public:
 
-  // Generate a dataset from the path of its json config file. If its doesnt
-  // exist it will automaticaly create the file, and a data directory in the
-  // same folder.
-  DataGenerator(std::string const &path);
+  // Default constructor.
+  DataGenerator();
 
   // Empty destructor.
   ~DataGenerator();
 
+  // Load the data generator from the given json file.
+  void loadFromJson(std::string const &path);
+
+  // Save the data generator to the given json file.
+  void saveToJson(std::string const &path);
+
   // Add an image to the data set. The image should match with a specific
   // |pattern| type.
   void addImage(IplImage *image, std::string const &pattern);
+
+private:
+  Json _json;
 };
 
 }  // namespace brain

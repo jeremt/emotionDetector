@@ -1,11 +1,12 @@
 
 #pragma once
 
+#include "brain/Machine.hpp"
+#include "brain/DataGenerator.hpp"
 #include "cvwrapper/Capture.hpp"
-#include "cvwrapper/Detector.hpp"
+#include "cvwrapper/FaceDetector.hpp"
 #include "cvwrapper/Window.hpp"
 #include "cvwrapper/Image.hpp"
-#include "brain/Machine.hpp"
 #include "cvwrapper/Application.hpp"
 
 class Application : public cvwrapper::Application {
@@ -19,9 +20,11 @@ public:
 
 private:
   brain::Machine _machine;
-  cvwrapper::Detector _detector;
+  brain::DataGenerator _dataGenerator;
+  cvwrapper::FaceDetector _detector;
   cvwrapper::Capture _cam;
   cvwrapper::Window _mainWindow;
   cvwrapper::Window _mouthWindow;
+  IplImage *_mouth;
 };
 

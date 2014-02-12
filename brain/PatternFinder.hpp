@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "cvwrapper/Detector.hpp"
+#include "cvwrapper/FaceDetector.hpp"
 #include "brain/Machine.hpp"
 
 namespace brain {
@@ -16,7 +16,7 @@ public:
 
 private:
   brain::Machine _machine;
-  cvwrapper::Detector _detector;
+  cvwrapper::FaceDetector _detector;
 };
 
 }

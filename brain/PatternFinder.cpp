@@ -11,6 +11,7 @@ PatternFinder::~PatternFinder() {}
 void PatternFinder::loadFromJson(std::string const &path) {
   _machine.loadFromJson(path);
   _machine.train();
+  _detector.load("data/haarcascade_frontalface_default.xml");
 }
 
 std::string PatternFinder::find(IplImage *image) const {

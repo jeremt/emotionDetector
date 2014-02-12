@@ -5,16 +5,18 @@
 
 namespace cvwrapper {
 
-// Simple class used to detect shapes from pictures using OpenCV api.
-class Detector {
+// Simple class used to detect faces from pictures using OpenCV api.
+class FaceDetector {
 public:
 
-  // Load all files used from detection from |data_dir| which is the directory
-  // which will contains all data files (e.g. haarcascade_XXXX.xml).
-  Detector(std::string const &data_dir = "data");
+  // Initialize the detector.
+  FaceDetector();
 
   // Release the loaded files.
-  ~Detector();
+  ~FaceDetector();
+
+  // Load the xml used to detect faces.
+  void load(std::string const &path = "haarcascade_frontalface_default.xml");
 
   // Detect human faces from the given |image|.
   CvSeq *detectFaces(IplImage *image) const;

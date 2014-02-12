@@ -12,6 +12,29 @@ The project provide a cmake compilation. On window, the cmake application will g
 ./run.sh help
 ```
 
+Create a dataset
+----------------
+
+A dataset is composed by a json file which contains set's meta-data, and a folder which contains the actual data.
+
+The json meta-data file is formated like this:
+
+```json
+{
+  "dataDir": "~/Projects/Epitech/emotionDetector/data",
+  "patterns": {
+    "happy": ["happy_0.png", "happy_1.png"],
+    "sad": ["sad_0.png", "sad_1.png"]
+  }
+}
+```
+
+The data folder contains:
+
+- __haarcascade_frontalface_default.xml__ - used for face detection using OpenCV
+- __patternName_num.png__ - files which are the images for each different patterns.
+
+
 Description
 -----------
 
