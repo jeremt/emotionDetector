@@ -54,7 +54,8 @@ TODO
 ----
 
 - Update GUI
-- Add an automatic way to update dataset (json, and screenshot taken)
+- Finish DataGenerator
+- Find why is it so slow...
 - Try to detect more emotions (Ekman emotions: anger, disgust, fear, happiness, sadness and surprise)
 - Try to create a plugin
 - Try to use neuronal network library (FAAN?)

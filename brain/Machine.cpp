@@ -100,8 +100,9 @@ std::string Machine::detect(IplImage *mouth) const {
   // Get the pattern name from the index found
   // TODO(jeremie) modulo le nombre d'image dans le data set
   std::size_t i = 0;
+  std::size_t size = _imgPatterns.size();
   for (auto const &pattern : _imgPatterns) {
-    if (i == minIndex / (_nbImgs >> 1))
+    if (i == minIndex / (_nbImgs / size))
       return pattern.first;
     ++i;
   }
