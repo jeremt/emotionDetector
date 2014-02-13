@@ -78,6 +78,7 @@ void Machine::train() {
 std::string Machine::detect(IplImage *mouth) const {
   if (_imgSize == 0 || _nbImgs == 0)
     throw std::runtime_error("cannot detect without training data");
+
   float min = std::numeric_limits<float>::max();
   std::size_t minIndex = 0;
 
@@ -98,7 +99,6 @@ std::string Machine::detect(IplImage *mouth) const {
   }
 
   // Get the pattern name from the index found
-  // TODO(jeremie) modulo le nombre d'image dans le data set
   std::size_t i = 0;
   std::size_t size = _imgPatterns.size();
   for (auto const &pattern : _imgPatterns) {

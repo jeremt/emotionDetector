@@ -55,7 +55,11 @@ TODO
 
 - Update GUI
 - Finish DataGenerator
+- Add FPS to logs
 - Find why is it so slow...
+- Add other patterns
+- Automatically update GUI from the patterns in the input json file
+- Create a tree to compare paterns and choose the right one
 - Try to detect more emotions (Ekman emotions: anger, disgust, fear, happiness, sadness and surprise)
 - Try to create a plugin
 - Try to use neuronal network library (FAAN?)
