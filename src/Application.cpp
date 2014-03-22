@@ -10,7 +10,7 @@ Application::Application() :
 Application::~Application() {}
 
 void Application::onStart(utils::Command const &command) {
-  setKeyWait(300);
+  setKeyWait(1);
   _machine.loadFromJson(command.getOpt<std::string>("path"));
   _machine.train();
   _detector.load("data/haarcascade_frontalface_default.xml");

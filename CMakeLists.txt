@@ -20,6 +20,8 @@ include_directories(.)
 
 include_directories(libs)
 
+include_directories(/usr/include/opencv/)
+
 set(
 
   SOURCES
